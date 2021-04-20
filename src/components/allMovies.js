@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link,useLocation} from 'react-router-dom';
 import Header from '../containers/header';
 import {Row,SectionTitle} from './styled';
 import axios from 'axios';
@@ -13,6 +13,7 @@ const imgSize = 300;
 
 
 class AllMovies extends Component {
+
     constructor (props) {
         super(props)
         this.state = {
@@ -50,11 +51,10 @@ class AllMovies extends Component {
         }
     }
 
+    
     render () {
-
+    
         const {result} = this.state;
-
-        console.log(this.state);
 
         return (
             <>
@@ -64,18 +64,39 @@ class AllMovies extends Component {
 
                     {
                         result.map(item=>{
-                            return (
-                                <div className="col">
-                                    <Link to={'/'+item.id} >
-                                        <div className="img-content">
-                                            <img src={`${headerOfImgUrl}${imgSize}${item.backdrop_path}`} />
-                                        </div>
-                                        <div className="card-body">
-                                            {item.title}
-                                        </div>
-                                    </Link>
-                                </div>
-                            )
+                            if(item.backdrop_path == null) {
+                                return (
+                                    <div className="col">
+                                        <Link to={{
+                                            pathname:"/selectedMovie",
+                                            state: item
+                                        }} >
+                                            <div className="img-content">
+                                                <img src={`https://kubalubra.is/wp-content/uploads/2017/11/default-thumbnail.jpg`} />
+                                            </div>
+                                            <div className="card-body">
+                                                {item.title}
+                                            </div>
+                                        </Link>
+                                    </div>
+                                )
+                            } else {
+                                return (
+                                    <div className="col">
+                                        <Link to={{
+                                            pathname:"/selectedMovie",
+                                            state: item
+                                        }} >
+                                            <div className="img-content">
+                                                <img src={`${headerOfImgUrl}${imgSize}${item.backdrop_path}`} />
+                                            </div>
+                                            <div className="card-body">
+                                                {item.title}
+                                            </div>
+                                        </Link>
+                                    </div>
+                                )
+                            }
                         })
                     }
                 </Row>
@@ -85,13 +106,14 @@ class AllMovies extends Component {
                         <span className="rounded-pill fw-bold text-white bg-success px-3">{this.state.onChangeNum}</span>
                     </div>
                     <div className="col-sm-12 py-3 col-md-6">
-                        <form className="d-flex align-items-center" onSubmit={this.goToPage} >
+                        <div className="d-flex align-items-center"  >
                             <p className="text-dark m-0 me-3" style={{whiteSpace: 'nowrap'}} >Page #</p>
                             <input type="number" name="page-number" defaultValue={this.state.pageNum} className="form-control me-2" id="pageNumber" onChange={this.onCHangeInputValue} />
-                            <button className="btn btn-secondary">Go</button>
-                        </form>
+                            <a style={{cursor: 'pointer'}} className="btn btn-secondary" onClick={this.goToPage} >Go</a>
+                        </div>
                     </div>
                 </div>
+            
             </>
         )
     }
