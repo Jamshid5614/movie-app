@@ -56,7 +56,6 @@ class TvShowsPage extends Component {
 
 
     goToMoviePage = (item) => {    
-        // console.log(item)
 
             this.setState
             (
@@ -98,6 +97,10 @@ class TvShowsPage extends Component {
                 .catch(err => console.error(err))
         }
     }
+
+    onCHangeInputValue = (e) => {
+        this.setState({onChangeNum: e.target.value});
+    }
             
     render () {
         const {pageNum,total_pages,result} = this.state;
@@ -116,12 +119,6 @@ class TvShowsPage extends Component {
 
                 <Header />
 
-                {/* <Slider {...setting} >
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIXHOERrwdI3BzQVM6nQM8utCcMuyztyeiug&usqp=CAU" alt=""/>
-                    <img src="https://truimagesauto.com/assets/img/Photography.jpg" alt=""/>
-                    <img src="https://imgd.aeplcdn.com/1056x594/cw/ec/37710/Maruti-Suzuki-Baleno-Right-Front-Three-Quarter-147420.jpg?wm=0&q=85" alt=""/>
-                </Slider> */}
-
                 <SectionTitle>Popular Movies</SectionTitle>
 
                 <Row>
@@ -131,7 +128,7 @@ class TvShowsPage extends Component {
                             if (item.backdrop_path == null) {
                                 return (
                                     <div className="col" key={item.id} >  
-                                        <Link  to={{
+                                        <Link to={{
                                             pathname:"/selectedMovie",
                                             state: item
                                         }} >
