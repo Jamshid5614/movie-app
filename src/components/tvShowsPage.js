@@ -100,8 +100,6 @@ class TvShowsPage extends Component {
     }
             
     render () {
-
-        
         const {pageNum,total_pages,result} = this.state;
         console.log(this.state);
         const setting = {
